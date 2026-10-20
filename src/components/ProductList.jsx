@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Check, Plus, ArrowUpRight } from 'lucide-react';
 import { categories, plants } from '../data/plants.js';
-import { addToCart } from './CartSlice.jsx';
+import { addItem } from './CartSlice.jsx';
 
 const money = (amount) => `$${amount.toFixed(2)}`;
 
@@ -41,6 +41,7 @@ export default function ProductList() {
 function PlantCard({ plant, added, dispatch, index }) {
   return <article className="plant-card" style={{ '--card-order': index }}>
     <div className="plant-photo-wrap"><img className="plant-photo" src={plant.image} alt={plant.name} loading="lazy" /><span className="photo-tag">{categories.find((category) => category.id === plant.category)?.name}</span></div>
-    <div className="plant-card-content"><div className="plant-title-row"><h3>{plant.name}</h3><span className="plant-price">{money(plant.price)}</span></div><p>{plant.description}</p><button className={`add-button ${added ? 'added' : ''}`} disabled={added} onClick={() => dispatch(addToCart(plant))}>{added ? <><Check size={16} /> In your cart</> : <><Plus size={16} /> Add to cart</>}</button></div>
+    <div className="plant-card-content"><div className="plant-title-row"><h3>{plant.name}</h3><span className="plant-price">{money(plant.price)}</span></div><p>{plant.description}</p><button className={`add-button ${added ? 'added' : ''}`} disabled={added} onClick={() => dispatch(addItem(plant))}>{added ? <><Check size={16} /> In your cart</> : <><Plus size={16} /> Add to cart</>}</button></div>
   </article>;
 }
+
