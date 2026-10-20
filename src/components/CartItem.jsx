@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ArrowLeft, Minus, Plus, Trash2, Leaf, ArrowRight } from 'lucide-react';
-import { clearCart, decreaseQuantity, increaseQuantity, removeFromCart, selectCartTotal } from './CartSlice.jsx';
+import { clearCart, removeItem, updateQuantity, selectCartTotal } from './CartSlice.jsx';
 
 const money = (amount) => `$${amount.toFixed(2)}`;
 
@@ -20,8 +20,8 @@ export default function CartItem() {
         <div className="cart-list-heading"><span>Item</span><span>Quantity</span><span>Total</span></div>
         {items.map((item) => <article className="cart-line" key={item.id}>
           <img src={item.image} alt={item.name} />
-          <div className="cart-product"><h2>{item.name}</h2><p>{money(item.price)} each</p><button className="remove-link" onClick={() => dispatch(removeFromCart(item.id))}><Trash2 size={14} /> Remove</button></div>
-          <div className="quantity-control"><button aria-label={`Decrease ${item.name} quantity`} onClick={() => dispatch(decreaseQuantity(item.id))}><Minus size={14} /></button><span>{item.quantity}</span><button aria-label={`Increase ${item.name} quantity`} onClick={() => dispatch(increaseQuantity(item.id))}><Plus size={14} /></button></div>
+          <div className="cart-product"><h2>{item.name}</h2><p>{money(item.price)} each</p><button className="remove-link" onClick={() => dispatch(removeItem(item.id))}><Trash2 size={14} /> Remove</button></div>
+          <div className="quantity-control"><button aria-label={`Decrease ${item.name} quantity`} onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity - 1 }))}><Minus size={14} /></button><span>{item.quantity}</span><button aria-label={`Increase ${item.name} quantity`} onClick={() => dispatch(updateQuantity({ id: item.id, quantity: item.quantity + 1 }))}><Plus size={14} /></button></div>
           <strong className="line-total">{money(item.price * item.quantity)}</strong>
         </article>)}
         <button className="clear-cart" onClick={() => dispatch(clearCart())}>Clear cart</button>
@@ -30,3 +30,4 @@ export default function CartItem() {
     </div>
   </main>;
 }
+
